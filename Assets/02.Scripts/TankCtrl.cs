@@ -10,6 +10,9 @@ public class TankCtrl : MonoBehaviour
     public float speed = 10.0f;
     private PhotonView pv;
 
+    public Transform firePos;
+    public GameObject cannon;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,13 +36,24 @@ public class TankCtrl : MonoBehaviour
     {
         if (pv.IsMine)
         {
-        float v = Input.GetAxis("Vertical");
-        float h = Input.GetAxis("Horizontal");
+            float v = Input.GetAxis("Vertical");
+            float h = Input.GetAxis("Horizontal");
 
-        //앞뒤
-        tr.Translate(Vector3.forward * Time.deltaTime * speed * v);
-        tr.Rotate(Vector3.up * Time.deltaTime * 100.0f * h);
+            //앞뒤
+            tr.Translate(Vector3.forward * Time.deltaTime * speed * v);
+            tr.Rotate(Vector3.up * Time.deltaTime * 100.0f * h);
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                pv.RPC("Fire",RpcTarget.All, null);    
+            }
         }
         
+    }
+
+    [PunRPC]
+    void Fire()
+    {
+        Instantiate(cannon, firePos.position, firePos.rotation);
     }
 }
