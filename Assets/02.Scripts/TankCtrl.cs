@@ -53,7 +53,6 @@ public class TankCtrl : MonoBehaviour
 
             //포신 회전 설정
             float r = Input.GetAxis("Mouse ScrollWheel");
-            Debug.Log("R");
             cannonMesh.Rotate(Vector3.right * Time.deltaTime * r * 100.0f);
         }
         
